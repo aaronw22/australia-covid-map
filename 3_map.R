@@ -5,6 +5,10 @@ pal_qld <- colorNumeric(palette = "Reds", domain = qld_lga_map_data$total, na.co
 pal_nsw <- colorNumeric(palette = "Blues", domain = nsw_map_data$Cases, na.color = "#d4d4d4")
 pal_vic <- colorNumeric(palette = "Purples", domain = vic_map_data$Cases, na.color = "#d4d4d4")
 pal_nat <- colorNumeric(palette = "Oranges", domain = state_shapes_data$cases, na.color = "#d4d4d4")
+# pal_qld <- colorBin(palette = "Reds", domain = qld_lga_map_data$total, na.color = "#d4d4d4", 6, pretty = T)
+# pal_nsw <- colorBin(palette = "Blues", domain = nsw_map_data$Cases, na.color = "#d4d4d4", 6, pretty = T)
+# pal_vic <- colorBin(palette = "Purples", domain = vic_map_data$Cases, na.color = "#d4d4d4", 6, pretty = T)
+# pal_nat <- colorBin(palette = "Oranges", domain = state_shapes_data$cases, na.color = "#d4d4d4", 6, pretty = T)
 
 # Hover labels
 labels_qld <- sprintf(
@@ -128,5 +132,3 @@ leaflet_map <-
       direction = "auto"
     )
   )
-
-leaflet_map
