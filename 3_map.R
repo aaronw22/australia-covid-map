@@ -34,7 +34,7 @@ labels_nat <- sprintf(
 
 # Create map
 leaflet_map <-
-  leaflet(options = leafletOptions(preferCanvas = T)) %>%
+  leaflet(elementId = "leaflet-map", options = leafletOptions(preferCanvas = T)) %>%
   addProviderTiles("Stamen.TonerLite", options = providerTileOptions(updateWhenIdle = TRUE)) %>%
   # Add QLD
   addPolygons(
