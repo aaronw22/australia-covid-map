@@ -1,0 +1,18 @@
+---
+title: "Australia COVID-19 Cases"
+author: "Aaron Wong"
+date: "01/05/2020"
+output: 
+  html_document:
+    css: styles.css
+---
+
+```{r generate, include=F, echo=FALSE}
+source("0_run_all.R")
+
+```
+
+```{r map, echo=FALSE, out.width = "100%", class.source="leaflet-map" }
+leaflet_map
+
+```
