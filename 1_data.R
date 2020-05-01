@@ -3,13 +3,14 @@
 ## NSW individual case data
 
 # Download spreadsheet with data
-download.file(
-  url = "https://data.nsw.gov.au/data/dataset/aefcde60-3b0c-4bc0-9af1-6fe652944ec2/resource/21304414-1ff1-4243-a5d2-f52778048b29/download/covid-19-cases-by-notification-date-and-postcode-local-health-district-and-local-government-area.csv",
-  destfile = "./Data/nsw_case_data.csv"
-)
+# download.file(
+#   url = "https://data.nsw.gov.au/data/dataset/aefcde60-3b0c-4bc0-9af1-6fe652944ec2/resource/21304414-1ff1-4243-a5d2-f52778048b29/download/covid-19-cases-by-notification-date-and-postcode-local-health-district-and-local-government-area.csv",
+#   destfile = "./Data/nsw_case_data.csv"
+# )
 
 # Load data
-nsw_data_raw <- fread("./Data/nsw_case_data.csv")
+# nsw_data_raw <- fread("./Data/nsw_case_data.csv")
+nsw_data_raw <- geojson_sf("https://opendata.arcgis.com/datasets/05a9ef0b191b499283cc505e8f992ed2_0.geojson")
 
 ## Victorian data
 

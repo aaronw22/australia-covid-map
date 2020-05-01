@@ -4,22 +4,35 @@
 ## New South Wales ##
 ##=================##
 
-# Summarise data by LGA and remove NAs
-nsw_data <- copy(nsw_data_raw)
-nsw_data[, case := 1]
-nsw_data <- nsw_data[, .(cases = sum(case)), by = lga_code19]
-nsw_data <- nsw_data[complete.cases(nsw_data)]
+# # Summarise data by LGA and remove NAs
+# nsw_data <- copy(nsw_data_raw)
+# nsw_data[, case := 1]
+# nsw_data <- nsw_data[, .(cases = sum(case)), by = lga_code19]
+# nsw_data <- nsw_data[complete.cases(nsw_data)]
+# 
+# # Filter LGA shapefile to NSW only
+# nsw_lga_map_data <- lga_shapes
+# nsw_lga_map_data <-
+#   nsw_lga_map_data %>% 
+#   filter(STE_CODE16 == 1)
+# 
+# # Match with geographic boundaries
+# nsw_lga_map_data <- 
+#   nsw_lga_map_data %>% 
+#   left_join(nsw_data, by = c("LGA_CODE19" = "lga_code19"))
 
-# Filter LGA shapefile to NSW only
-nsw_lga_map_data <- lga_shapes
-nsw_lga_map_data <-
-  nsw_lga_map_data %>% 
-  filter(STE_CODE16 == 1)
+# NSW data are already in a sf object
+# Tidy columns and column types
 
-# Match with geographic boundaries
-nsw_lga_map_data <- 
-  nsw_lga_map_data %>% 
-  left_join(nsw_data, by = c("LGA_CODE19" = "lga_code19"))
+nsw_map_data <- copy(nsw_data_raw)
+
+nsw_map_data <-
+  nsw_map_data %>% 
+  select(-c("LastUpdated", "Shape__Area", "Shape__Length", "OBJECTID", "Cases_Str")) %>% 
+  mutate(Cases = as.numeric(Cases)) %>% 
+  mutate(LGA_CODE19 = as.numeric(LGA_CODE19)) %>% 
+  st_transform("+proj=longlat +datum=WGS84 +no_defs")
+
 
 ##==========##
 ## Victoria ##
