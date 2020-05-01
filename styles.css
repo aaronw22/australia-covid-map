@@ -1,0 +1,7 @@
+.main-container {
+  max-width: 1200px !important;
+}
+
+#leaflet-map {
+  height: 720px !important;
+}
