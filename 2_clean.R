@@ -47,7 +47,8 @@ vic_map_data <-
   vic_map_data %>% 
   select(-c("LastUpdated", "Shape__Area", "Shape__Length", "OBJECTID", "Cases_Str")) %>% 
   mutate(Cases = as.numeric(Cases)) %>% 
-  mutate(LGA_CODE19 = as.numeric(LGA_CODE19))
+  mutate(LGA_CODE19 = as.numeric(LGA_CODE19)) %>% 
+  st_transform("+proj=longlat +datum=WGS84 +no_defs")
 
 ##============##
 ## Queensland ##
@@ -66,8 +67,15 @@ qld_data[, LGA_NAME19 := str_replace(LGA_NAME19, "\\(c\\)", "\\(C\\)")]
 qld_data[, LGA_NAME19 := str_replace(LGA_NAME19, "\\(s\\)", "\\(S\\)")]
 qld_data[, LGA_NAME19 := str_replace(LGA_NAME19, "\\(Rc\\)", "\\(R\\)")]
 
+# Convert total column to numeric
+qld_data[, total := as.numeric(total)]
+
 # Remove total row
 qld_data <- qld_data[LGA_NAME19 != "Total", ]
+
+# Keep total column only
+cols <- c("LGA_NAME19", "total")
+qld_data <- qld_data[, setdiff(names(qld_data), cols) := NULL]
 
 # Prepare shapefile
 qld_lga_map_data <- lga_shapes
@@ -78,4 +86,8 @@ qld_lga_map_data <-
 # Match with shapefile
 qld_lga_map_data <- 
   qld_lga_map_data %>% 
-  left_join(qld_data, by = c("LGA_CODE19" = "lga_code19"))
+  left_join(qld_data, by = "LGA_NAME19") %>% 
+  st_transform("+proj=longlat +datum=WGS84 +no_defs")
+
+# Remove empty geometries
+qld_lga_map_data <- qld_lga_map_data[!st_is_empty(qld_lga_map_data),,drop=FALSE]
