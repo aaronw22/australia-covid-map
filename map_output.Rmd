@@ -5,6 +5,7 @@ date: "01/05/2020"
 output: 
   html_document:
     css: styles.css
+    keep_md: true
 ---
 
 ```{r generate, include=F, echo=FALSE}
