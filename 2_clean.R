@@ -91,3 +91,31 @@ qld_lga_map_data <-
 
 # Remove empty geometries
 qld_lga_map_data <- qld_lga_map_data[!st_is_empty(qld_lga_map_data),,drop=FALSE]
+
+##===========##
+## Australia ##
+##===========##
+
+aus_data <- copy(aus_data_raw)
+
+# Keep latest totals only
+aus_data <- aus_data[["sheets.latest totals"]]
+
+# Drop QLD, NSW, VIC
+aus_data <- setDT(aus_data)[!(`State or territory` %in% c("QLD", "NSW", "VIC")), ]
+
+# Drop all columns except total cases and state name
+cols <- c("Long name", "Confirmed cases (cumulative)")
+aus_data[, setdiff(names(aus_data), cols) := NULL]
+setnames(aus_data, c("state", "cases"))
+
+aus_data[, cases := as.numeric(cases)]
+
+# Merge with state geometries
+state_shapes_data <- copy(state_shapes)
+
+state_shapes_data <-
+  state_shapes_data %>% 
+  left_join(aus_data, by = c("STE_NAME16" = "state")) %>% 
+  st_transform("+proj=longlat +datum=WGS84 +no_defs") %>% 
+  drop_na()

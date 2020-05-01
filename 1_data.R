@@ -28,6 +28,11 @@ qld_data_raw <-
   html_node("#LGA") %>%
   html_table()
 
+## Data for rest of Australia
+aus_data_raw <- 
+  jsonlite::fromJSON("https://interactive.guim.co.uk/docsdata/1q5gdePANXci8enuiS4oHUJxcxC13d6bjMRSicakychE.json") %>% 
+  unlist(recursive = F)
+
 ## Load LGA shapefiles
 lga_shapes <- st_read("./Data/abs_lga_2019_shp/LGA_2019_AUST.shp")
 state_shapes <- st_read("./Data/abs_ste_2016_shp/STE_2016_AUST.shp")
